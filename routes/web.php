@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/my-bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
     Route::patch('/bookings/{booking}/payment', [BookingController::class, 'submitPayment'])->name('bookings.submitPayment');
 });
 

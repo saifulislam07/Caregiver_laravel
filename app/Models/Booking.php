@@ -8,14 +8,20 @@ class Booking extends Model
 {
     protected $fillable = [
         'user_id', 'service_id', 'caregiver_id', 'package_id', 'status', 'booking_date',
-        'payment_method', 'transaction_id', 'advance_amount', 'payment_status',
+        'payment_method', 'transaction_id', 'advance_amount', 'total_price', 'payment_status',
         'admin_notes', 'patient_name', 'patient_phone', 'patient_address',
     ];
 
     protected $casts = [
         'booking_date' => 'datetime',
         'advance_amount' => 'decimal:2',
+        'total_price' => 'decimal:2',
     ];
+
+    public function getDueAmountAttribute()
+    {
+        return max(0, ($this->total_price ?? 0) - ($this->advance_amount ?? 0));
+    }
 
     public function user()
     {

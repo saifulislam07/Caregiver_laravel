@@ -70,6 +70,23 @@ class BookingController extends Controller
                 'advance_amount' => 'required|numeric|min:' . $minAdvance,
             ]);
 
+            // Check for duplicate pending bookings for the same service
+            $existing = Booking::where('user_id', Auth::id())
+                ->where('service_id', $validated['service_id'])
+                ->where('status', 'pending')
+                ->first();
+
+            if ($existing) {
+                $bookingId = $existing->id + 1000;
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'service_id' => ["You already have a pending booking request (ID: #{$bookingId}) for this service. Please wait for us to process it before booking again."]
+                ]);
+            }
+
+            // Fetch service price
+            $service = \App\Models\Service::find($validated['service_id']);
+            $totalPrice = $service->price ?? 0;
+
             $booking = Booking::create([
                 'user_id' => Auth::id(),
                 'service_id' => $validated['service_id'],
@@ -82,6 +99,7 @@ class BookingController extends Controller
                 'payment_method' => $validated['payment_method'],
                 'transaction_id' => $validated['transaction_id'],
                 'advance_amount' => $validated['advance_amount'],
+                'total_price' => $totalPrice, // Save captured price
                 'payment_status' => 'pending_verification',
             ]);
 
@@ -132,5 +150,15 @@ class BookingController extends Controller
         ]);
 
         return back()->with('success', 'Payment information submitted! We will verify it shortly.');
+    }
+
+    public function invoice(Booking $booking)
+    {
+        if ($booking->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $booking->load(['service', 'user']);
+        return view('bookings.invoice', compact('booking'));
     }
 }

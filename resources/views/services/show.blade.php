@@ -173,7 +173,7 @@
                                 <div>
                                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Patient Full Name <span class="text-red-500">*</span></label>
                                     <div class="relative">
-                                        <input type="text" name="patient_name" id="patient_name" class="w-full bg-white border border-slate-100 rounded-2xl py-4 px-6 pl-14 focus:outline-none focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 transition-all font-bold text-slate-900" placeholder="e.g. Mohammad Rahman">
+                                        <input type="text" name="patient_name" id="patient_name" value="{{ auth()->check() ? auth()->user()->name : '' }}" class="w-full bg-white border border-slate-100 rounded-2xl py-4 px-6 pl-14 focus:outline-none focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 transition-all font-bold text-slate-900" placeholder="e.g. Mohammad Rahman">
                                         <div class="absolute left-5 top-1/2 -translate-y-1/2 text-primary-600 text-lg pointer-events-none"><i class="fas fa-user-injured"></i></div>
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@
                                 <div>
                                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Contact Number <span class="text-red-500">*</span></label>
                                     <div class="relative">
-                                        <input type="tel" name="patient_phone" id="patient_phone" class="w-full bg-white border border-slate-100 rounded-2xl py-4 px-6 pl-14 focus:outline-none focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 transition-all font-bold text-slate-900" placeholder="01XXXXXXXXX">
+                                        <input type="tel" name="patient_phone" id="patient_phone" value="{{ auth()->check() && auth()->user()->patientProfile ? auth()->user()->patientProfile->phone : '' }}" class="w-full bg-white border border-slate-100 rounded-2xl py-4 px-6 pl-14 focus:outline-none focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 transition-all font-bold text-slate-900" placeholder="01XXXXXXXXX">
                                         <div class="absolute left-5 top-1/2 -translate-y-1/2 text-primary-600 text-lg pointer-events-none"><i class="fas fa-phone"></i></div>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@
                                 <div>
                                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Service Address <span class="text-red-500">*</span></label>
                                     <div class="relative">
-                                        <textarea name="patient_address" id="patient_address" rows="3" class="w-full bg-white border border-slate-100 rounded-2xl py-4 px-6 pl-14 focus:outline-none focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 transition-all font-bold text-slate-900 resize-none" placeholder="Full address where care is needed..."></textarea>
+                                        <textarea name="patient_address" id="patient_address" rows="3" class="w-full bg-white border border-slate-100 rounded-2xl py-4 px-6 pl-14 focus:outline-none focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 transition-all font-bold text-slate-900 resize-none" placeholder="Full address where care is needed...">{{ auth()->check() && auth()->user()->patientProfile ? auth()->user()->patientProfile->address : '' }}</textarea>
                                         <div class="absolute left-5 top-5 text-primary-600 text-lg pointer-events-none"><i class="fas fa-map-marker-alt"></i></div>
                                     </div>
                                 </div>
@@ -374,6 +374,30 @@
                             </div>
 
                         </form>
+
+                        {{-- ====================== SUCCESS STEP ====================== --}}
+                        <div id="bookingSuccess" class="hidden py-12 text-center fade-in-up">
+                            <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg shadow-green-100 animate-bounce">
+                                <i class="fas fa-check text-4xl"></i>
+                            </div>
+                            <h3 class="text-3xl font-display font-black text-slate-900 mb-4">Booking Requested!</h3>
+                            <p class="text-slate-600 font-medium mb-8 leading-relaxed px-4">
+                                🎉 Your booking request has been submitted successfully! We will verify your payment shortly.
+                            </p>
+                            
+                            <div class="space-y-3">
+                                <a href="{{ route('bookings.index') }}" class="block w-full bg-primary-600 text-white py-4 rounded-2xl font-bold text-base shadow-xl shadow-primary-200 hover:bg-primary-700 transition-all">
+                                    Track My Bookings <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                                <a href="{{ route('services.index') }}" class="block w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold text-base hover:bg-slate-200 transition-all">
+                                    Browse More Services
+                                </a>
+                            </div>
+
+                            <p class="mt-8 text-xs text-slate-400 font-bold uppercase tracking-widest">
+                                Redirecting to your dashboard in <span id="countdown">5</span>s...
+                            </p>
+                        </div>
                 </div>
             </div>
         </div>
@@ -491,8 +515,8 @@ $(document).ready(function() {
 
         // Account validation if checked
         if ($('#create_account').is(':checked')) {
-            const email = $('#reg_email').val().trim();
-            const pass = $('#reg_password').val().trim();
+            const email = $('#email').val().trim();
+            const pass = $('#password').val().trim();
             if (!email || !pass) {
                 showAlert('Please provide account email and password.', 'error');
                 return;
@@ -514,9 +538,9 @@ $(document).ready(function() {
     // -------------------- Guest Account Toggle --------------------
     $('#create_account').on('change', function() {
         if ($(this).is(':checked')) {
-            $('#accountFields').slideDown(400);
+            $('#registration_fields').slideDown(400);
         } else {
-            $('#accountFields').slideUp(300);
+            $('#registration_fields').slideUp(300);
         }
     });
 
@@ -544,8 +568,8 @@ $(document).ready(function() {
 
         // Guest Registration Validation
         if ($('#create_account').is(':checked')) {
-            const email = $('#reg_email').val().trim();
-            const pass = $('#reg_password').val().trim();
+            const email = $('#email').val().trim();
+            const pass = $('#password').val().trim();
             if (!email || !pass) {
                 showAlert('Please provide account details.', 'error');
                 goToStep(2);
@@ -579,19 +603,64 @@ $(document).ready(function() {
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: function(response) {
                 if (response.success) {
-                    showAlert('🎉 ' + response.message, 'success');
-                    $btn.html('<i class="fas fa-check-circle mr-2"></i> Booking Submitted!').addClass('bg-green-500').removeClass('bg-primary-600');
-                    setTimeout(() => { window.location.href = "{{ route('bookings.index') }}"; }, 2500);
+                    // Success Panel Dynamic Transition
+                    $('#stepIndicator, #bookingForm, #bookingAlert').fadeOut(400, function() {
+                        $('#bookingSuccess').removeClass('hidden').addClass('flex flex-col');
+                        
+                        // Countdown and redirect
+                        let count = 5;
+                        const timer = setInterval(() => {
+                            count--;
+                            $('#countdown').text(count);
+                            if (count <= 0) {
+                                clearInterval(timer);
+                                window.location.href = "{{ route('bookings.index') }}";
+                            }
+                        }, 1000);
+                    });
                 }
             },
             error: function(xhr) {
                 $btn.prop('disabled', false).html('<i class="fas fa-check-circle mr-2"></i> Confirm Booking');
-                let msg = 'An error occurred. Please try again.';
+                
                 if (xhr.status === 422) {
-                    const errors = xhr.responseJSON.errors;
-                    msg = Object.values(errors).flat().join('<br>');
+                    const response = xhr.responseJSON;
+                    let msg = 'Validation error occurred.';
+                    if (response.errors) {
+                        msg = Object.values(response.errors).flat().join('<br>');
+                    } else if (response.message) {
+                        msg = response.message;
+                    }
+
+                    // Professional SweetAlert for Duplicate/Validation errors
+                    Swal.fire({
+                        title: 'Booking Pending',
+                        html: `<div class="text-slate-600 font-medium leading-relaxed">${msg}</div>
+                               <div class="mt-6 p-6 bg-primary-50 rounded-[2rem] border-2 border-dashed border-primary-200">
+                                   <p class="text-[10px] font-black text-primary-700 uppercase tracking-widest mb-3 leading-none italic">Fast Approval Support</p>
+                                   <p class="text-slate-600 text-xs mb-4 font-medium">Please call us and mention your <b>Booking ID</b> for immediate verification.</p>
+                                   <a href="tel:{{ $settings['contact_phone'] ?? '+880 1234 567 890' }}" class="inline-flex items-center gap-3 bg-primary-600 text-white px-8 py-4 rounded-xl font-black text-base shadow-xl shadow-primary-200 hover:hover:scale-105 transition-transform no-underline">
+                                       <i class="fas fa-phone-alt"></i>
+                                       {{ $settings['contact_phone'] ?? '+880 1234 567 890' }}
+                                   </a>
+                               </div>`,
+                        icon: 'info',
+                        showConfirmButton: true,
+                        confirmButtonText: 'I understand',
+                        confirmButtonColor: '#4f46e5',
+                        padding: '2.5rem',
+                        background: '#ffffff',
+                        customClass: {
+                            popup: 'rounded-[3.5rem] border-0 shadow-2xl overflow-hidden',
+                            title: 'font-display font-black text-3xl text-slate-900 pt-8',
+                            confirmButton: 'rounded-2xl px-10 py-4 font-black text-[11px] uppercase tracking-widest'
+                        }
+                    });
+                } else if (xhr.status === 401) {
+                    showAlert('Please login to complete your booking.', 'error');
+                } else {
+                    showAlert('An error occurred. Please try again.', 'error');
                 }
-                showAlert(msg, 'error');
             }
         });
     });
