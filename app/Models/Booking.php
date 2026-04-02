@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    protected $fillable = ['user_id', 'service_id', 'caregiver_id', 'package_id', 'status', 'booking_date'];
+    protected $fillable = [
+        'user_id', 'service_id', 'caregiver_id', 'package_id', 'status', 'booking_date',
+        'payment_method', 'transaction_id', 'advance_amount', 'payment_status',
+        'admin_notes', 'patient_name', 'patient_phone', 'patient_address',
+    ];
+
+    protected $casts = [
+        'booking_date' => 'datetime',
+        'advance_amount' => 'decimal:2',
+    ];
 
     public function user()
     {
@@ -26,5 +35,27 @@ class Booking extends Model
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        return match($this->status) {
+            'pending' => '<span class="badge badge-warning">Pending</span>',
+            'approved' => '<span class="badge badge-success">Approved</span>',
+            'completed' => '<span class="badge badge-info">Completed</span>',
+            'cancelled' => '<span class="badge badge-danger">Cancelled</span>',
+            default => '<span class="badge badge-secondary">Unknown</span>',
+        };
+    }
+
+    public function getPaymentBadgeAttribute()
+    {
+        return match($this->payment_status) {
+            'unpaid' => '<span class="badge badge-secondary">Unpaid</span>',
+            'pending_verification' => '<span class="badge badge-warning">Awaiting Verification</span>',
+            'verified' => '<span class="badge badge-success">Verified</span>',
+            'rejected' => '<span class="badge badge-danger">Rejected</span>',
+            default => '<span class="badge badge-secondary">N/A</span>',
+        };
     }
 }

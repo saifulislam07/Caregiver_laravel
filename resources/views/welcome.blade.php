@@ -19,19 +19,19 @@
                         Trusted by 5,000+ Families
                     </div>
                     <h1 class="text-5xl lg:text-7xl font-display font-black leading-[1.1] text-slate-900 mb-8">
-                        Quality Care for Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Loved Ones.</span>
+                        Premium Home Care for Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Loved Ones.</span>
                     </h1>
                     <p class="text-xl text-slate-600 leading-relaxed mb-10 max-w-xl">
-                        ActiveCare provides professional and compassionate home-based caregiver and nursing services. Trust us to bring hospital-grade care to your doorstep.
+                        {{ $settings['site_name'] ?? 'HealoraHealth' }} provides professional and compassionate home-based caregiver and nursing services. Trust us to bring hospital-grade care to your doorstep.
                     </p>
                     <div class="flex flex-wrap gap-4">
                         <a href="{{ route('services.index') }}" class="group flex items-center gap-2 bg-primary-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-primary-200 hover:bg-primary-700 hover:-translate-y-1 transition-all duration-300">
                             Our Services
-                            <ion-icon name="arrow-forward" class="text-xl group-hover:translate-x-1 transition-transform"></ion-icon>
+                            <i class="fas fa-arrow-right text-xl group-hover:translate-x-1 transition-transform"></i>
                         </a>
                         <a href="#" class="flex items-center gap-2 bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold shadow-premium hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 border border-slate-100">
                             Watch Video
-                            <ion-icon name="play-circle-outline" class="text-2xl text-primary-600"></ion-icon>
+                            <i class="far fa-play-circle text-2xl text-primary-600"></i>
                         </a>
                     </div>
 
@@ -44,11 +44,11 @@
                         </div>
                         <div class="text-sm">
                             <div class="flex text-amber-400 mb-1">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
                             </div>
                             <span class="text-slate-500 font-medium">4.9/5 from 2,000+ reviews</span>
                         </div>
@@ -65,7 +65,7 @@
                     <div class="absolute -bottom-8 -left-8 glass-effect p-6 rounded-3xl animate-float z-20">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 bg-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg shadow-secondary-200">
-                                <ion-icon name="shield-checkmark"></ion-icon>
+                                <i class="fas fa-shield-alt"></i>
                             </div>
                             <div>
                                 <h4 class="font-bold text-slate-900">Certified</h4>
@@ -77,7 +77,7 @@
                     <div class="absolute -top-8 -right-8 glass-effect p-6 rounded-3xl animate-float z-20" style="animation-delay: -3s">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 bg-primary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg shadow-primary-200">
-                                <ion-icon name="heart"></ion-icon>
+                                <i class="fas fa-heart"></i>
                             </div>
                             <div>
                                 <h4 class="font-bold text-slate-900">24/7 Care</h4>
@@ -106,7 +106,7 @@
                 </div>
                 <a href="{{ route('services.index') }}" class="group flex items-center gap-2 text-primary-600 font-bold text-lg hover:gap-4 transition-all duration-300">
                     Explore All Services
-                    <ion-icon name="arrow-forward"></ion-icon>
+                    <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
@@ -120,7 +120,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                 <div class="absolute bottom-6 left-8">
                                     <span class="px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest border border-white/30">
-                                        ActiveCare Pro
+                                        {{ $settings['site_name'] ?? 'HealoraHealth' }} Pro
                                     </span>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                 <a href="{{ route('services.show', $service->slug) }}" class="flex items-center justify-between group/btn">
                                     <span class="font-bold text-slate-900 group-hover/btn:text-primary-600 transition-colors">Learn More</span>
                                     <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-900 group-hover/btn:bg-primary-600 group-hover/btn:text-white transition-all">
-                                        <ion-icon name="chevron-forward"></ion-icon>
+                                        <i class="fas fa-chevron-right"></i>
                                     </div>
                                 </a>
                             </div>
@@ -143,7 +143,7 @@
                 @empty
                     <div class="col-span-full py-20 text-center">
                         <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mx-auto mb-6">
-                            <ion-icon name="folder-open-outline" class="text-4xl"></ion-icon>
+                            <i class="far fa-folder-open text-4xl"></i>
                         </div>
                         <p class="text-slate-500 font-bold">No services found at the moment.</p>
                     </div>
@@ -158,7 +158,7 @@
             <div class="flex flex-col lg:flex-row items-center gap-20">
                 <div class="w-full lg:w-5/12 fade-in-up">
                     <h2 class="text-4xl lg:text-5xl font-display font-black text-slate-900 mb-8 leading-tight">
-                        Why Thousands Choose <span class="text-primary-600">ActiveCare</span>
+                        Why Thousands Choose <span class="text-primary-600">{{ $settings['site_name'] ?? 'HealoraHealth' }}</span>
                     </h2>
                     <p class="text-lg text-slate-600 leading-relaxed mb-12 font-medium">
                         We don't just provide care; we build relationships. Our holistic approach ensures physical recovery and emotional well-being.
@@ -167,7 +167,7 @@
                     <div class="space-y-8">
                         <div class="flex gap-6 group">
                             <div class="w-16 h-16 rounded-[1.25rem] bg-white shadow-premium flex items-center justify-center text-primary-600 text-3xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-500 group-hover:-rotate-6">
-                                <ion-icon name="medal-outline"></ion-icon>
+                                <i class="fas fa-medal"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-display font-black text-slate-900 mb-2">Certified Excellence</h4>
@@ -177,7 +177,7 @@
 
                         <div class="flex gap-6 group">
                             <div class="w-16 h-16 rounded-[1.25rem] bg-white shadow-premium flex items-center justify-center text-primary-600 text-3xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-500 group-hover:-rotate-6">
-                                <ion-icon name="time-outline"></ion-icon>
+                                <i class="far fa-clock"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-display font-black text-slate-900 mb-2">24/7 Rapid Response</h4>
@@ -187,7 +187,7 @@
 
                         <div class="flex gap-6 group">
                             <div class="w-16 h-16 rounded-[1.25rem] bg-white shadow-premium flex items-center justify-center text-primary-600 text-3xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-500 group-hover:-rotate-6">
-                                <ion-icon name="heart-outline"></ion-icon>
+                                <i class="far fa-heart"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-display font-black text-slate-900 mb-2">Compassion First</h4>
@@ -311,7 +311,7 @@
                                     @foreach($package->features as $feature)
                                         <li class="flex items-start gap-4">
                                             <div class="w-6 h-6 rounded-lg bg-primary-50 flex-shrink-0 flex items-center justify-center text-primary-600">
-                                                <ion-icon name="checkmark-done" class="text-lg"></ion-icon>
+                                                <i class="fas fa-check-double text-lg"></i>
                                             </div>
                                             <span class="text-slate-600 font-medium leading-tight">{{ $feature }}</span>
                                         </li>
@@ -342,7 +342,7 @@
                         Stories of <span class="text-primary-600">Recovery</span> and Happiness
                     </h2>
                     <p class="text-lg text-slate-600 font-medium leading-relaxed">
-                        Don't just take our word for it. Hear from the families who have experienced the life-changing impact of ActiveCare.
+                        Don't just take our word for it. Hear from the families who have experienced the life-changing impact of {{ $settings['site_name'] ?? 'HealoraHealth' }}.
                     </p>
                 </div>
                 <div class="w-full lg:w-1/2 flex justify-center lg:justify-end gap-12 fade-in-up" style="animation-delay: 0.2s">
@@ -361,10 +361,10 @@
                 <!-- Testimonial 1 -->
                 <div class="bg-white p-10 rounded-[2.5rem] shadow-premium hover-lift">
                     <div class="flex text-amber-400 mb-8 text-xl">
-                        <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-xl text-slate-700 leading-relaxed italic mb-10 font-medium">
-                        "ActiveCare provided my father with exceptional nursing care after his surgery. The caregiver wasn't just professional but also felt like family. Highly recommended!"
+                        "{{ $settings['site_name'] ?? 'HealoraHealth' }} provided my father with exceptional nursing care after his surgery. The caregiver wasn't just professional but also felt like family. Highly recommended!"
                     </p>
                     <div class="flex items-center gap-4">
                         <img src="https://i.pravatar.cc/150?u=4" class="w-16 h-16 rounded-2xl grayscale hover:grayscale-0 transition-all duration-500" alt="Sarah Ahmed">
@@ -381,7 +381,7 @@
                         <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
                     </div>
                     <p class="text-xl text-slate-700 leading-relaxed italic mb-10 font-medium">
-                        "As a busy professional, I needed someone I could trust for my mother's daily needs. ActiveCare exceeded our expectations. Truly a professional and dependable service."
+                        "As a busy professional, I needed someone I could trust for my mother's daily needs. {{ $settings['site_name'] ?? 'HealoraHealth' }} exceeded our expectations. Truly a professional and dependable service."
                     </p>
                     <div class="flex items-center gap-4">
                         <img src="https://i.pravatar.cc/150?u=5" class="w-16 h-16 rounded-2xl grayscale hover:grayscale-0 transition-all duration-500" alt="Rahman Mirza">
@@ -408,50 +408,28 @@
             </div>
 
             <div class="max-w-4xl mx-auto space-y-6">
-                <!-- FAQ Item 1 -->
-                <div class="faq-item group border border-slate-100 rounded-3xl p-2 transition-all duration-300 hover:border-primary-100 hover:bg-primary-50/10">
-                    <button class="faq-toggle w-full text-left p-6 flex justify-between items-center transition-all duration-300">
-                        <span class="text-xl font-display font-black text-slate-900 group-hover:text-primary-600 font-primary">How do you vet your caregivers?</span>
-                        <div class="faq-icon w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
-                            <ion-icon name="add-outline" class="text-xl"></ion-icon>
+                @forelse($faqs as $faq)
+                    <!-- FAQ Item -->
+                    <div class="faq-item group border border-slate-100 rounded-3xl p-2 transition-all duration-300 hover:border-primary-100 hover:bg-primary-50/10">
+                        <button class="faq-toggle w-full text-left p-6 flex justify-between items-center transition-all duration-300">
+                            <span class="text-xl font-display font-black text-slate-900 group-hover:text-primary-600 font-primary">{{ $faq->question }}</span>
+                            <div class="faq-icon w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
+                                <i class="fas fa-plus text-xl"></i>
+                            </div>
+                        </button>
+                        <div class="faq-content px-6 pb-6 text-slate-500 leading-relaxed hidden">
+                            {{ $faq->answer }}
                         </div>
-                    </button>
-                    <div class="faq-content px-6 pb-6 text-slate-500 leading-relaxed hidden">
-                        All our caregivers undergo a rigorous background check, including clinical skills assessment, police verification, and personality matching.
                     </div>
-                </div>
-
-                <!-- FAQ Item 2 -->
-                <div class="faq-item group border border-slate-100 rounded-3xl p-2 transition-all duration-300 hover:border-primary-100 hover:bg-primary-50/10">
-                    <button class="faq-toggle w-full text-left p-6 flex justify-between items-center transition-all duration-300">
-                        <span class="text-xl font-display font-black text-slate-900 group-hover:text-primary-600 font-primary">Can I request a specific caregiver?</span>
-                        <div class="faq-icon w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
-                            <ion-icon name="add-outline" class="text-xl"></ion-icon>
-                        </div>
-                    </button>
-                    <div class="faq-content px-6 pb-6 text-slate-500 leading-relaxed hidden">
-                        Yes, if you've worked with someone before or have a specific gender or language preference, we do our best to accommodate your request.
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="faq-item group border border-slate-100 rounded-3xl p-2 transition-all duration-300 hover:border-primary-100 hover:bg-primary-50/10">
-                    <button class="faq-toggle w-full text-left p-6 flex justify-between items-center transition-all duration-300">
-                        <span class="text-xl font-display font-black text-slate-900 group-hover:text-primary-600 font-primary">Do you provide 24/7 support?</span>
-                        <div class="faq-icon w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
-                            <ion-icon name="add-outline" class="text-xl"></ion-icon>
-                        </div>
-                    </button>
-                    <div class="faq-content px-6 pb-6 text-slate-500 leading-relaxed hidden">
-                        Absolutely. We have specialized 24/7 care packages and a rapid response team for emergency clinical support.
-                    </div>
-                </div>
+                @empty
+                    <p class="text-center text-slate-500">No FAQs available at the moment.</p>
+                @endforelse
             </div>
         </div>
     </section>
 
     <!-- Appointment CTA -->
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 mb-2">
             <div class="relative rounded-[3rem] bg-slate-900 overflow-hidden shadow-2xl p-12 lg:p-20">
                 <!-- Background Pattern -->
                 <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -470,8 +448,8 @@
                     </div>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="tel:+8801234567890" class="group flex items-center gap-3 bg-white text-slate-900 px-10 py-5 rounded-[2rem] font-bold text-lg hover:-translate-y-1 transition-all duration-300 shadow-2xl shadow-white/5">
-                            <ion-icon name="call" class="text-2xl text-primary-600 group-hover:rotate-12 transition-transform"></ion-icon>
-                            +880 1234 567 890
+                            <i class="fas fa-phone-alt text-2xl text-primary-600 group-hover:rotate-12 transition-transform"></i>
+                            {{ $settings['contact_phone'] ?? '+880 1234 567 890' }}
                         </a>
                         <a href="#" class="flex items-center gap-3 bg-slate-800 text-white px-10 py-5 rounded-[2rem] font-bold text-lg hover:bg-slate-700 transition-all duration-300 border border-slate-700">
                             Book Online
@@ -497,16 +475,16 @@
         $('.faq-toggle').on('click', function() {
             const item = $(this).closest('.faq-item');
             const content = item.find('.faq-content');
-            const icon = item.find('.faq-icon ion-icon');
+            const icon = item.find('.faq-icon i');
             
             $('.faq-content').not(content).addClass('hidden');
-            $('.faq-icon ion-icon').not(icon).attr('name', 'add-outline');
+            $('.faq-icon i').not(icon).removeClass('fa-minus').addClass('fa-plus');
             
             content.toggleClass('hidden');
             if(content.hasClass('hidden')) {
-                icon.attr('name', 'add-outline');
+                icon.removeClass('fa-minus').addClass('fa-plus');
             } else {
-                icon.attr('name', 'remove-outline');
+                icon.removeClass('fa-plus').addClass('fa-minus');
             }
         });
     });

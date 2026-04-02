@@ -5,52 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', config('app.name', 'ActiveCare')) - Premium Caregiver Services</title>
-    <meta name="description" content="@yield('meta_description', 'Professional caregiver and nursing services at your doorstep. ActiveCare brings hospital-quality care to the comfort of your home.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'caregiver, nursing service, home care, elderly care, patient care, healthcare Bangladesh')">
+    <title>@yield('title', $settings['site_name'] ?? 'HealoraHealth') {{ $settings['meta_title_suffix'] ?? '- Premium Home Care & Nursing' }}</title>
+    @if(isset($settings['site_favicon']))
+        <link rel="icon" type="image/png" href="{{ asset($settings['site_favicon']) }}">
+    @endif
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@yield('meta_description', $settings['meta_description_default'] ?? 'HealoraHealth provides professional, hospital-quality caregiver and nursing services at home.')">
+    <meta name="keywords" content="@yield('meta_keywords', $settings['meta_keywords_default'] ?? 'caregiver, nursing, HealoraHealth')">
+    <meta name="author" content="HealoraHealth Team">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title') - ActiveCare">
-    <meta property="og:description" content="@yield('meta_description', 'Professional caregiver and nursing services at your doorstep.')">
-    <meta property="og:image" content="{{ asset('images/og-image.jpg') }}">
+    <meta property="og:title" content="@yield('title') {{ $settings['meta_title_suffix'] ?? '- HealoraHealth' }}">
+    <meta property="og:description" content="@yield('meta_description', $settings['meta_description_default'] ?? 'Professional caregiver services at home.')">
+    <meta property="og:image" content="{{ asset($settings['site_logo'] ?? 'images/og-image.jpg') }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="@yield('title') - ActiveCare">
-    <meta property="twitter:description" content="@yield('meta_description', 'Professional caregiver and nursing services at your doorstep.')">
-    @verbatim
-    <!-- JSON-LD Structured Data -->
+    <meta property="twitter:title" content="@yield('title') {{ $settings['meta_title_suffix'] ?? '- HealoraHealth' }}">
+    <meta property="twitter:description" content="@yield('meta_description', $settings['meta_description_default'] ?? 'Professional caregiver services at home.')">
+    <meta property="twitter:image" content="{{ asset($settings['site_logo'] ?? 'images/og-image.jpg') }}">
+
+    <!-- JSON-LD Structured Data for Local Business & Medical Service -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "ActiveCare",
-      "url": "https://activecare.com",
-      "logo": "https://activecare.com/images/logo.png",
+      "@@context": "https://schema.org",
+      "@@type": "MedicalOrganization",
+      "name": "{{ $settings['site_name'] ?? 'HealoraHealth' }}",
+      "url": "{{ url('/') }}",
+      "logo": "{{ asset($settings['site_logo'] ?? 'images/logo.png') }}",
+      "description": "{{ $settings['meta_description_default'] ?? 'HealoraHealth provides premium home care services.' }}",
+      "slogan": "{{ $settings['site_slogan'] ?? 'Your Health, Our Trust' }}",
       "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+880 1234 567 890",
+        "@@type": "ContactPoint",
+        "telephone": "{{ $settings['contact_phone'] ?? '+880 1700 000 000' }}",
         "contactType": "customer service",
         "areaServed": "BD",
         "availableLanguage": ["en", "bn"]
       },
-      "sameAs": [
-        "https://facebook.com/activecare",
-        "https://twitter.com/activecare",
-        "https://linkedin.com/company/activecare"
-      ]
+      "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": "{{ $settings['address'] ?? 'Dhaka' }}",
+        "addressLocality": "Dhaka",
+        "addressRegion": "Dhaka",
+        "addressCountry": "BD"
+      }
     }
     </script>
-    @endverbatim
-
 
     <!-- Ionicons -->
-    <script type="module" src="https://unpkg.com/ionicons@@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- FontAwesome for comprehensive social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -66,18 +79,35 @@
             <div class="flex items-center gap-8">
                 <span class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                     <ion-icon name="call-outline" class="text-primary-400 text-sm"></ion-icon>
-                    +880 1234 567 890
+                    {{ $settings['contact_phone'] ?? '+880 1234 567 890' }}
                 </span>
                 <span class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                     <ion-icon name="mail-outline" class="text-primary-400 text-sm"></ion-icon>
-                    info@@activecare.com
+                    {{ $settings['contact_email'] ?? 'info@takefamilycare.com' }}
                 </span>
             </div>
             <div class="flex items-center gap-5">
-                <a href="#" class="hover:text-white transition-colors"><ion-icon name="logo-facebook"></ion-icon></a>
-                <a href="#" class="hover:text-white transition-colors"><ion-icon name="logo-twitter"></ion-icon></a>
-                <a href="#" class="hover:text-white transition-colors"><ion-icon name="logo-linkedin"></ion-icon></a>
-                <a href="#" class="hover:text-white transition-colors"><ion-icon name="logo-instagram"></ion-icon></a>
+                @if(isset($settings['facebook_url']) && !empty($settings['facebook_url']))
+                    <a href="{{ $settings['facebook_url'] }}" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                @endif
+                @if(isset($settings['twitter_url']) && !empty($settings['twitter_url']))
+                    <a href="{{ $settings['twitter_url'] }}" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                @endif
+                @if(isset($settings['linkedin_url']) && !empty($settings['linkedin_url']))
+                    <a href="{{ $settings['linkedin_url'] }}" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                @endif
+                @if(isset($settings['instagram_url']) && !empty($settings['instagram_url']))
+                    <a href="{{ $settings['instagram_url'] }}" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                @endif
+                @if(isset($settings['youtube_url']) && !empty($settings['youtube_url']))
+                    <a href="{{ $settings['youtube_url'] }}" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-youtube"></i></a>
+                @endif
+                @if(isset($settings['whatsapp_url']) && !empty($settings['whatsapp_url']))
+                    <a href="{{ $settings['whatsapp_url'] }}" target="_blank" class="hover:text-[#25D366] transition-colors"><i class="fab fa-whatsapp"></i></a>
+                @endif
+                @if(isset($settings['messenger_url']) && !empty($settings['messenger_url']))
+                    <a href="{{ $settings['messenger_url'] }}" target="_blank" class="hover:text-[#00B2FF] transition-colors"><i class="fab fa-facebook-messenger"></i></a>
+                @endif
             </div>
         </div>
     </div>
@@ -88,20 +118,48 @@
             <div id="nav-inner" class="bg-white/70 backdrop-blur-xl border border-white/40 rounded-[2rem] shadow-glass px-8 py-3 flex items-center justify-between transition-all duration-500">
                 <!-- Branding -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                    <div class="w-11 h-11 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-200 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                        <ion-icon name="heart" class="text-2xl"></ion-icon>
-                    </div>
-                    <span class="text-2xl font-display font-black tracking-tight text-slate-900 group-hover:text-primary-600 transition-colors">
-                        Active<span class="text-primary-600">Care</span>
-                    </span>
+                    @if(isset($settings['site_logo']))
+                        <img src="{{ asset($settings['site_logo']) }}" alt="{{ $settings['site_name'] ?? 'TakeFamilyCare' }}" class="h-10">
+                    @else
+                        <div class="w-11 h-11 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-200 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                            <ion-icon name="heart" class="text-2xl"></ion-icon>
+                        </div>
+                        <span class="text-2xl font-display font-black tracking-tight text-slate-900 group-hover:text-primary-600 transition-colors">
+                            Healora<span class="text-primary-600">Health</span>
+                        </span>
+                    @endif
                 </a>
 
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex items-center gap-2">
                     <ul class="flex items-center gap-1 mr-4">
-                        <li><a href="{{ route('home') }}" class="px-4 py-2 text-slate-600 font-bold transition-all duration-300 rounded-xl hover:text-primary-600 hover:bg-primary-50 text-sm {{ request()->routeIs('home') ? 'text-primary-600 bg-primary-50' : '' }}">Home</a></li>
-                        <li><a href="{{ route('services.index') }}" class="px-4 py-2 text-slate-600 font-bold transition-all duration-300 rounded-xl hover:text-primary-600 hover:bg-primary-50 text-sm {{ request()->routeIs('services.*') ? 'text-primary-600 bg-primary-50' : '' }}">Services</a></li>
-                        <li><a href="{{ route('caregivers.index') }}" class="px-4 py-2 text-slate-600 font-bold transition-all duration-300 rounded-xl hover:text-primary-600 hover:bg-primary-50 text-sm {{ request()->routeIs('caregivers.*') ? 'text-primary-600 bg-primary-50' : '' }}">Caregivers</a></li>
+                        @foreach($header_menus as $menu)
+                            @if($menu->children->count() > 0)
+                                <li class="relative group/dropdown">
+                                    <button class="px-4 py-2 text-slate-600 font-bold transition-all duration-300 rounded-xl hover:text-primary-600 hover:bg-primary-50 text-sm flex items-center gap-1">
+                                        {{ $menu->name }}
+                                        <ion-icon name="chevron-down-outline" class="text-xs"></ion-icon>
+                                    </button>
+                                    <ul class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 transform translate-y-2 group-hover/dropdown:translate-y-0 z-50">
+                                        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-2 min-w-[200px]">
+                                            @foreach($menu->children as $child)
+                                                <li>
+                                                    <a href="{{ url($child->url) }}" class="block px-4 py-2.5 text-slate-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all text-sm font-semibold">
+                                                        {{ $child->name }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </div>
+                                    </ul>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ url($menu->url) }}" class="px-4 py-2 text-slate-600 font-bold transition-all duration-300 rounded-xl hover:text-primary-600 hover:bg-primary-50 text-sm {{ request()->is(trim($menu->url, '/')) ? 'text-primary-600 bg-primary-50' : '' }}">
+                                        {{ $menu->name }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                     
                     <div class="h-8 w-px bg-slate-200 mx-2"></div>
@@ -111,6 +169,9 @@
                         <a href="{{ route('register') }}" class="bg-primary-600 text-white px-7 py-3 rounded-2xl font-bold shadow-xl shadow-primary-200 hover:bg-primary-700 hover:-translate-y-0.5 transition-all duration-300 text-sm">Join Now</a>
                     @else
                         <div class="flex items-center gap-4">
+                            @role('Admin')
+                                <!-- Admin Panel link removed upon request -->
+                            @endrole
                             <a href="{{ route('dashboard') }}" class="px-4 py-2 text-slate-600 font-bold transition-all duration-300 rounded-xl hover:text-primary-600 hover:bg-primary-50 text-sm">Dashboard</a>
                             <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                 @csrf
@@ -144,15 +205,26 @@
             </div>
 
             <ul class="space-y-4 mb-12">
-                <li><a href="{{ route('home') }}" class="flex items-center gap-4 p-4 rounded-2xl font-bold text-slate-900 {{ request()->routeIs('home') ? 'bg-primary-50 text-primary-600' : 'hover:bg-slate-50' }}">
-                    <ion-icon name="home-outline" class="text-xl"></ion-icon> Home
-                </a></li>
-                <li><a href="{{ route('services.index') }}" class="flex items-center gap-4 p-4 rounded-2xl font-bold text-slate-900 {{ request()->routeIs('services.*') ? 'bg-primary-50 text-primary-600' : 'hover:bg-slate-50' }}">
-                    <ion-icon name="grid-outline" class="text-xl"></ion-icon> Services
-                </a></li>
-                <li><a href="{{ route('caregivers.index') }}" class="flex items-center gap-4 p-4 rounded-2xl font-bold text-slate-900 {{ request()->routeIs('caregivers.*') ? 'bg-primary-50 text-primary-600' : 'hover:bg-slate-50' }}">
-                    <ion-icon name="people-outline" class="text-xl"></ion-icon> Caregivers
-                </a></li>
+                @foreach($header_menus as $menu)
+                    @if($menu->children->count() > 0)
+                        <li class="space-y-2">
+                            <div class="flex items-center justify-between p-4 rounded-2xl font-bold text-slate-400 uppercase text-[10px] tracking-widest bg-slate-50/50">
+                                {{ $menu->name }}
+                            </div>
+                            @foreach($menu->children as $child)
+                                <a href="{{ url($child->url) }}" class="flex items-center gap-4 p-4 rounded-2xl font-bold text-slate-900 hover:bg-primary-50 hover:text-primary-600 transition-all {{ request()->is(trim($child->url, '/')) ? 'bg-primary-50 text-primary-600' : '' }}">
+                                     {{ $child->name }}
+                                </a>
+                            @endforeach
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ url($menu->url) }}" class="flex items-center gap-4 p-4 rounded-2xl font-bold text-slate-900 {{ request()->is(trim($menu->url, '/')) ? 'bg-primary-50 text-primary-600' : 'hover:bg-slate-50' }}">
+                                {{ $menu->name }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
 
             <div class="mt-auto space-y-4">
@@ -178,71 +250,88 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <div class="fade-in-up">
                     <a href="{{ route('home') }}" class="flex items-center gap-3 mb-8">
-                        <div class="w-11 h-11 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-900/50">
-                            <ion-icon name="heart" class="text-2xl"></ion-icon>
-                        </div>
-                        <span class="text-2xl font-display font-black tracking-tight text-white">
-                            Active<span class="text-primary-400">Care</span>
-                        </span>
+                        @if(isset($settings['site_logo_white']))
+                            <img src="{{ asset($settings['site_logo_white']) }}" alt="{{ $settings['site_name'] ?? 'HealoraHealth' }}" class="h-12 mb-4">
+                        @elseif(isset($settings['site_logo']))
+                            <img src="{{ asset($settings['site_logo']) }}" alt="{{ $settings['site_name'] ?? 'HealoraHealth' }}" class="h-12 mb-4">
+                        @else
+                            <div class="w-11 h-11 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-900/50">
+                                <ion-icon name="heart" class="text-2xl"></ion-icon>
+                            </div>
+                            <span class="text-2xl font-display font-black tracking-tight text-white">
+                                Healora<span class="text-primary-400">Health</span>
+                            </span>
+                        @endif
                     </a>
                     <p class="leading-relaxed mb-8">Providing compassionate and professional caregiver services and nursing at your doorstep. We bring hospital-quality care to the comfort of your home.</p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-primary-600 hover:-translate-y-1 transition-all duration-300">
-                            <ion-icon name="logo-facebook" class="text-xl"></ion-icon>
-                        </a>
-                        <a href="#" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-primary-600 hover:-translate-y-1 transition-all duration-300">
-                            <ion-icon name="logo-instagram" class="text-xl"></ion-icon>
-                        </a>
-                        <a href="#" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-primary-600 hover:-translate-y-1 transition-all duration-300">
-                            <ion-icon name="logo-twitter" class="text-xl"></ion-icon>
-                        </a>
+                    <div class="flex flex-wrap gap-4 mt-6">
+                        @if(isset($settings['facebook_url']) && !empty($settings['facebook_url']))
+                            <a href="{{ $settings['facebook_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#1877F2] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                        @endif
+                        @if(isset($settings['instagram_url']) && !empty($settings['instagram_url']))
+                            <a href="{{ $settings['instagram_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#E4405F] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                        @endif
+                        @if(isset($settings['twitter_url']) && !empty($settings['twitter_url']))
+                            <a href="{{ $settings['twitter_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#1DA1F2] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-twitter text-xl"></i>
+                            </a>
+                        @endif
+                        @if(isset($settings['linkedin_url']) && !empty($settings['linkedin_url']))
+                            <a href="{{ $settings['linkedin_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#0A66C2] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-linkedin-in text-xl"></i>
+                            </a>
+                        @endif
+                        @if(isset($settings['youtube_url']) && !empty($settings['youtube_url']))
+                            <a href="{{ $settings['youtube_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#FF0000] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-youtube text-xl"></i>
+                            </a>
+                        @endif
+                        @if(isset($settings['whatsapp_url']) && !empty($settings['whatsapp_url']))
+                            <a href="{{ $settings['whatsapp_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#25D366] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                            </a>
+                        @endif
+                        @if(isset($settings['messenger_url']) && !empty($settings['messenger_url']))
+                            <a href="{{ $settings['messenger_url'] }}" target="_blank" class="w-11 h-11 rounded-2xl bg-slate-800 flex items-center justify-center text-white hover:bg-[#00B2FF] hover:-translate-y-1 transition-all duration-300">
+                                <i class="fab fa-facebook-messenger text-xl"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
 
-                <div class="fade-in-up" style="animation-delay: 0.1s">
-                    <h5 class="text-white font-display font-bold text-lg mb-8 uppercase tracking-widest text-sm">Quick Links</h5>
-                    <ul class="space-y-4">
-                        <li><a href="{{ route('home') }}" class="footer-link">Home</a></li>
-                        <li><a href="{{ route('services.index') }}" class="footer-link">Our Services</a></li>
-                        <li><a href="{{ route('caregivers.index') }}" class="footer-link">Caregivers</a></li>
-                        <li><a href="#" class="footer-link">About Us</a></li>
-                    </ul>
-                </div>
-
-                <div class="fade-in-up" style="animation-delay: 0.2s">
-                    <h5 class="text-white font-display font-bold text-lg mb-8 uppercase tracking-widest text-sm">Support</h5>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="footer-link">Help Center</a></li>
-                        <li><a href="#" class="footer-link">Terms of Service</a></li>
-                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                        <li><a href="#" class="footer-link">FAQ</a></li>
-                    </ul>
-                </div>
+                @foreach($footer_menus as $index => $footerMenu)
+                    <div class="fade-in-up" style="animation-delay: {{ 0.1 * ($index + 1) }}s">
+                        <h5 class="text-white font-display font-bold text-lg mb-8 uppercase tracking-widest">{{ $footerMenu->name }}</h5>
+                        <ul class="space-y-4">
+                            @if($footerMenu->children->count() > 0)
+                                @foreach($footerMenu->children as $child)
+                                    <li><a href="{{ $child->url }}" class="footer-link">{{ $child->name }}</a></li>
+                                @endforeach
+                            @elseif($footerMenu->url)
+                                <li><a href="{{ $footerMenu->url }}" class="footer-link">{{ $footerMenu->name }}</a></li>
+                            @endif
+                        </ul>
+                    </div>
+                @endforeach
 
                 <div class="fade-in-up" style="animation-delay: 0.3s">
-                    <h5 class="text-white font-display font-bold text-lg mb-8 uppercase tracking-widest text-sm">Contact Info</h5>
+                    <h5 class="text-white font-display font-bold text-lg mb-8 uppercase tracking-widest">Contact Info</h5>
                     <ul class="space-y-6">
-                        <li class="flex gap-4">
-                            <div class="w-11 h-11 rounded-2xl bg-slate-800 flex-shrink-0 flex items-center justify-center text-primary-400">
-                                <ion-icon name="location-outline" class="text-xl"></ion-icon>
-                            </div>
-                            <span class="text-sm">House 12, Road 5, Sector 3, Uttara, Dhaka, Bangladesh</span>
-                        </li>
-                        <li class="flex gap-4">
-                            <div class="w-11 h-11 rounded-2xl bg-slate-800 flex-shrink-0 flex items-center justify-center text-primary-400">
-                                <ion-icon name="call-outline" class="text-xl"></ion-icon>
-                            </div>
-                            <span class="text-sm">+880 1234 567 890</span>
-                        </li>
+                            <span class="text-sm text-slate-400">{{ $settings['address'] ?? 'DHAKA, BANGLADESH' }}</span>
+                            <span class="text-sm text-slate-400">{{ $settings['contact_phone'] ?? '+880 1234 567 890' }}</span>
                     </ul>
                 </div>
             </div>
 
             <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-sm text-slate-500">&copy; {{ date('Y') }} ActiveCare. All rights reserved.</p>
+                <p class="text-sm text-slate-500">&copy; {{ date('Y') }} {{ $settings['site_name'] ?? 'HealoraHealth' }}. All rights reserved.</p>
                 <div class="flex gap-6 items-center">
                     <span class="text-xs uppercase tracking-widest font-bold text-slate-600">Secure Payments</span>
-                    <img src="https://caregiver.activeitapps.com/frontend/img/payment-methods.png" alt="Payment Methods" class="h-6 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer">
+                    <!-- Payment Methods Icon removed as external source is down -->
                 </div>
             </div>
         </div>
@@ -301,6 +390,7 @@
             observer.observe(el);
         });
     </script>
+    <x-floating-chat />
     @stack('scripts')
 </body>
 </html>

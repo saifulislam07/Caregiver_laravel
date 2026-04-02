@@ -25,6 +25,22 @@ class ServiceController extends Controller
         $service = Service::where('slug', $slug)->firstOrFail();
         $caregivers = Caregiver::where('availability', true)->with('user')->get();
         
-        return view('services.show', compact('service', 'caregivers'));
+        // Fetch payment settings
+        $minAdvance = \App\Models\Setting::get('minimum_advance', 500);
+        $bkashNum = \App\Models\Setting::get('bkash_number', '017XXXXXXXX');
+        $bkashType = \App\Models\Setting::get('bkash_type', 'Personal');
+        $nagadNum = \App\Models\Setting::get('nagad_number', '017XXXXXXXX');
+        $nagadType = \App\Models\Setting::get('nagad_type', 'Personal');
+        $bankName = \App\Models\Setting::get('bank_name', 'Example Bank');
+        $bankAccName = \App\Models\Setting::get('bank_account_name', 'Healora Health');
+        $bankAccNum = \App\Models\Setting::get('bank_account_number', '1234567890');
+        $bankRouting = \App\Models\Setting::get('bank_routing', '123456789');
+        $bankBranch = \App\Models\Setting::get('bank_branch', 'Dhaka');
+        
+        return view('services.show', compact(
+            'service', 'caregivers', 'minAdvance', 
+            'bkashNum', 'bkashType', 'nagadNum', 'nagadType', 
+            'bankName', 'bankAccName', 'bankAccNum', 'bankRouting', 'bankBranch'
+        ));
     }
 }
